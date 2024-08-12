@@ -1,0 +1,113 @@
+{
+  "name": "@1stcathays/react-components",
+  "version": "0.0.0-development",
+  "main": "./src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "keywords": [
+    "component",
+    "1stcathays",
+    "react"
+  ],
+  "repository": "https://github.com/1stcathays/react-components",
+  "publishConfig": {
+    "@1stcathays:registry": "https://npm.pkg.github.com/1stcathays"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "pnpm run clean && pnpm run build:lib && pnpm run build:types",
+    "build:lib": "NODE_ENV=production node ./build.mjs",
+    "build:assets": "pnpm tailwindcss -i ./src/global.css -o ./dist/app.css --minify",
+    "build:storybook": "storybook build",
+    "build:types": "tsc --project ./tsconfig.dist.json --declaration --declarationMap --emitDeclarationOnly --outDir dist",
+    "storybook": "storybook dev -p 6006",
+    "lint": "pnpm lint:format && pnpm lint:files && pnpm lint:types",
+    "lint:files": "eslint --output-file checkstyle.xml --format checkstyle .",
+    "lint:types": "tsc --noemit",
+    "lint:format": "prettier --check .",
+    "test": "vitest",
+    "test:unit": "vitest run --coverage --reporter=junit --outputFile=junit.xml",
+    "release": "pnpm publish"
+  },
+  "devDependencies": {
+    "@1stcathays/eslint-config": "^0.1.0",
+    "@1stcathays/prettier-config": "^0.1.0",
+    "@commitlint/cli": "^17.8.1",
+    "@commitlint/config-conventional": "^17.8.1",
+    "@semantic-release/git": "^10.0.1",
+    "@storybook/addon-essentials": "^8.2.8",
+    "@storybook/addon-interactions": "^8.2.8",
+    "@storybook/addon-links": "^8.2.8",
+    "@storybook/blocks": "^8.2.8",
+    "@storybook/react": "^8.2.8",
+    "@storybook/react-vite": "^8.2.8",
+    "@storybook/test": "^8.2.8",
+    "@types/node": "^22.2.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^2.0.3",
+    "autoprefixer": "^10.4.20",
+    "chalk": "^5.3.0",
+    "clsx": "^2.1.1",
+    "esbuild": "^0.23.0",
+    "eslint": "^8.37.0",
+    "eslint-plugin-storybook": "^0.8.0",
+    "glob": "^11.0.0",
+    "globals": "^15.9.0",
+    "husky": "^9.1.1",
+    "lint-staged": "^15.2.7",
+    "postcss": "^8.4.41",
+    "prop-types": "^15.8.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "semantic-release": "^24.0.0",
+    "storybook": "^8.2.8",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss": "^3.4.9",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.0",
+    "vite-plugin-dts": "^4.0.2",
+    "vitest": "^2.0.3"
+  },
+  "peerDependencies": {
+    "class-variance-authority": "^0.7.0",
+    "lucide-react": "^0.427.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "prettier": "@1stcathays/prettier-config",
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": "eslint --fix",
+    "*.{ts,tsx,js,jsx,md,json}": "prettier --write"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "./dist"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  }
+}
