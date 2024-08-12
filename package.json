@@ -17,7 +17,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "pnpm run clean && pnpm run build:lib && pnpm run build:types",
+    "build": "pnpm run clean && pnpm run build:lib && pnpm run build:types && pnpm run build:assets",
     "build:lib": "NODE_ENV=production node ./build.mjs",
     "build:assets": "pnpm tailwindcss -i ./src/global.css -o ./dist/app.css --minify",
     "build:storybook": "storybook build",
